@@ -18,7 +18,7 @@ export default function App() {
   return (
     <div className="App">
       <Menu onModelUpload={handleModelUpload} currentModel={modelUrl} />
-      <Canvas>
+      <Canvas data-testid="canvas">
         <Suspense fallback={null}>
           <Model url={modelUrl} />
           <OrbitControls />
