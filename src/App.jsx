@@ -1,15 +1,16 @@
-import "bootstrap/dist/css/bootstrap.min.css";
-import "./styles.css";
-import { Canvas } from "@react-three/fiber";
 import { Environment, OrbitControls } from "@react-three/drei";
-import { Suspense } from "react";
+import { Canvas } from "@react-three/fiber";
+import "bootstrap/dist/css/bootstrap.min.css";
+import { Suspense, useState } from "react";
 import { Menu } from "./components/Menu";
-import { useState } from "react";
 import { Model } from "./components/Model";
+import "./styles.css";
+import { UserAuthModal } from "./components/UserAuthModal";
 
 export default function App() {
   const defaultModelUrl = "/models/cute_owo_mushroom_3d_model.glb";
   const [modelUrl, setModelUrl] = useState(defaultModelUrl);
+  const [showSignInModal, setShowSignInModal] = useState(false);
 
   const handleModelUpload = (url) => {
     setModelUrl(url);
@@ -17,7 +18,11 @@ export default function App() {
 
   return (
     <div className="App">
-      <Menu onModelUpload={handleModelUpload} currentModel={modelUrl} />
+      <Menu
+        onModelUpload={handleModelUpload}
+        currentModel={modelUrl}
+        setShowSignInModal={setShowSignInModal}
+      />
       <Canvas data-testid="canvas">
         <Suspense fallback={null}>
           <Model url={modelUrl} />
@@ -25,6 +30,12 @@ export default function App() {
           <Environment preset="sunset" background />
         </Suspense>
       </Canvas>
+      {showSignInModal && (
+        <UserAuthModal
+          show={showSignInModal}
+          onHide={() => setShowSignInModal(false)}
+        />
+      )}
     </div>
   );
 }
