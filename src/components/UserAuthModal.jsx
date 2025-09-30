@@ -3,7 +3,7 @@ import { useState } from "react";
 import { SignInForm } from "./SignInForm";
 import { SignUpForm } from "./SignUpForm";
 
-export const UserAuthModal = ({ show, onHide }) => {
+export const UserAuthModal = ({ show, onHide, isUserLoggedIn }) => {
   const [displaySignIn, setDisplaySignIn] = useState(true);
   const [userAuthData, setUserAuthData] = useState({
     email: "",
@@ -20,6 +20,7 @@ export const UserAuthModal = ({ show, onHide }) => {
           userData={userAuthData}
           setUserData={setUserAuthData}
           handleClose={onHide}
+          isUserLoggedIn={isUserLoggedIn}
         />
       ) : (
         <SignUpForm

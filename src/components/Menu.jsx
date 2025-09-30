@@ -1,15 +1,21 @@
 import { Nav, Navbar, Container, Form, NavItem, Button } from "react-bootstrap";
 import { useState, useEffect } from "react";
+import { doSignOut } from "../firebase/auth";
+import { useAuth } from "../contexts/authContext";
 
-export const Menu = ({ onModelUpload, currentModel, setShowSignInModal }) => {
+export const Menu = ({
+  onModelUpload,
+  currentModel,
+  setShowSignInModal,
+  isUserLoggedIn,
+}) => {
 
+  const { currentUser } = useAuth();
   const handleFileUpload = (e) => {
     const file = e.target.files[0];
     const url = URL.createObjectURL(file);
     onModelUpload((prevUrl) => url);
   };
-
-  
 
   return (
     <>
@@ -34,10 +40,23 @@ export const Menu = ({ onModelUpload, currentModel, setShowSignInModal }) => {
                   />
                 </Form.Group>
               </NavItem>
-              <NavItem className="d-flex gap-3 m-2">
-                <Navbar.Text className="text-white">Sign In to Save Your Uploaded Models</Navbar.Text>
-                <Button onClick={() => setShowSignInModal(true)}>Sign In</Button>
-              </NavItem>
+              {!isUserLoggedIn ? (
+                <NavItem className="d-flex gap-3 m-2">
+                  <Navbar.Text className="text-white">
+                    Sign In to Save Your Uploaded Models
+                  </Navbar.Text>
+                  <Button onClick={() => setShowSignInModal(true)}>
+                    Sign In
+                  </Button>
+                </NavItem>
+              ) : (
+                <NavItem className="m-2">
+                  <Navbar.Text className="text-white me-3">
+                    Signed in as: {currentUser.displayName ? currentUser.displayName : currentUser.email}
+                  </Navbar.Text>
+                  <Button onClick={doSignOut}>Sign Out</Button>
+                </NavItem>
+              )}
             </Nav>
           </Navbar.Collapse>
         </Container>

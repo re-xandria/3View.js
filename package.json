@@ -16,6 +16,7 @@
     "@react-three/fiber": "^9.3.0",
     "bootstrap": "^5.3.8",
     "firebase": "^12.3.0",
+    "git-filter-repo": "^0.0.30",
     "prettier": "^3.6.2",
     "react": "^19.1.1",
     "react-bootstrap": "^2.10.10",

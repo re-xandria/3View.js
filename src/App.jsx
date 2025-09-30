@@ -6,11 +6,13 @@ import { Menu } from "./components/Menu";
 import { Model } from "./components/Model";
 import "./styles.css";
 import { UserAuthModal } from "./components/UserAuthModal";
+import { useAuth } from "./contexts/authContext";
 
 export default function App() {
   const defaultModelUrl = "/models/cute_owo_mushroom_3d_model.glb";
   const [modelUrl, setModelUrl] = useState(defaultModelUrl);
   const [showSignInModal, setShowSignInModal] = useState(false);
+  const { userLoggedIn } = useAuth();
 
   const handleModelUpload = (url) => {
     setModelUrl(url);
@@ -22,6 +24,7 @@ export default function App() {
         onModelUpload={handleModelUpload}
         currentModel={modelUrl}
         setShowSignInModal={setShowSignInModal}
+        isUserLoggedIn={userLoggedIn}
       />
       <Canvas data-testid="canvas">
         <Suspense fallback={null}>
@@ -34,6 +37,7 @@ export default function App() {
         <UserAuthModal
           show={showSignInModal}
           onHide={() => setShowSignInModal(false)}
+          isUserLoggedIn={userLoggedIn}
         />
       )}
     </div>
